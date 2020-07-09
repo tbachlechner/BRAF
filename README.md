@@ -43,6 +43,10 @@ Averages +/- Standard Error
  AUPRC:     0.68 +/- 0.03
 
 ```
+<p align="left">
+<img src=./data/BRAF_prc_fold9.png width="350"/><img src=./data/BRAF_roc_fold9.png width="350"/>
+</p>
+
 
 RF evaluation
 ```
@@ -68,7 +72,9 @@ Averages +/- Standard Error
  AUROC:     0.70 +/- 0.01
  AUPRC:     0.67 +/- 0.02
  ```
-
+<p align="left">
+<img src=./data/RF_prc_fold9.png width="350"/><img src=./data/RF_roc_fold9.png width="350"/>
+</p>
 
 
 References:
