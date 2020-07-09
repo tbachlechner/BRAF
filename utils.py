@@ -1,34 +1,75 @@
+# Imports
 import random
 import matplotlib.pyplot as plt
 from data_processing import *
 
+
+# Define various helper functions
 def transpose_list(data):
+    '''
+    Transpose first two levels of dataset
+
+    Parameters:
+    data (list(list))
+    '''
+
     return list(map(list, zip(*data)))
 
+
 def mean(data):
+    '''
+    Compute mean of data
+
+    Parameters:
+    data
+    '''
     return sum(data)/len(data)
 
+
 def standard_error(data):
-    length = len(data) 
+    '''
+    Compute standard error of data
+
+    Parameters:
+    data
+    '''
+
+    length = len(data)
     mean = sum(data) / length
     variance = sum([((x - mean) ** 2) for x in data]) / length
     out = variance ** 0.5 / (length ** 0.5)
     return out
 
+
 def extract_targets(data):
+    '''
+    Extract target from data
+
+    Parameters:
+    data[0] = [Features, Label]
+    '''
+
     targets = []
     for el in data:
         targets.append(el[-1])
     return targets
 
-        
+
+# Define various helper functions for evaluation
 def accuracy_precision_recall(predictions,targets):
+    '''
+    Compute accuracy, precision and recall
+
+    Parameters:
+    predictions,targets
+    '''
+
     assert len(predictions) == len(targets)
     true_positives = 0
     all_positives = 0
     positives = 0
     correct = 0
-    
+
     for i in range(len(predictions)):
         prediction = predictions[i]
         target = targets[i]
@@ -48,13 +89,20 @@ def accuracy_precision_recall(predictions,targets):
     accuracy = correct/len(predictions)
     return accuracy, precision, recall
 
+
 def fpr_tpr(predictions,targets):
+    '''
+    Compute false positive rate and true positive rate
+
+    Parameters:
+    predictions, targets
+    '''
+
     assert len(predictions) == len(targets)
     true_positives = 0
     false_positives = 0
     positives = sum(targets)
     negatives = len(targets)-positives
-    
     for i in range(len(predictions)):
         prediction = predictions[i]
         target = targets[i]
@@ -64,14 +112,16 @@ def fpr_tpr(predictions,targets):
             elif targets[i] != 1:
                 false_positives += 1
 
-                
     tpr = true_positives / positives
     fpr = false_positives / negatives
-
     return fpr, tpr
 
+
 def print_curve(x,y,filename,kind = 'roc'):
-    
+    '''
+    Create nice plots from curve dataset and save them at filename
+    '''
+
     if kind == 'prc':
         x_label = 'Recall'
         y_label = 'Precision'
@@ -89,12 +139,17 @@ def print_curve(x,y,filename,kind = 'roc'):
     ax.set(xlabel=x_label, ylabel=y_label,
            title=title)
     ax.grid()
-    
     fig.savefig(filename,  dpi=400)
 
 
+def curve(prediction_probs, targets, kind = 'prc' , points = 100, print_plot = True,
+          filename = None, k_fold = 0):
+    '''
+    Return area under curve and also print curve for precision recall Curve
+    and receiver operating characteristic curve.
 
-def curve(prediction_probs, targets, kind = 'prc' , points = 100, print_plot = True,filename = None, k_fold = 0):
+
+    '''
     output = []
     for i in range(points+1):
         threshold = i/points
@@ -105,18 +160,19 @@ def curve(prediction_probs, targets, kind = 'prc' , points = 100, print_plot = T
                 output.append( ( recall,precision ) )
         elif kind == 'roc':
             output.append(fpr_tpr(predictions,targets))
-            
-    [x,y] = transpose_list(output)
-    
-    
 
+    [x,y] = transpose_list(output)
     if print_plot:
         assert filename != None, 'Provide a filename argument to curve().'
         plot = print_curve(x,y,filename = filename, kind = kind)
-    
+
     return auc(x,y)
 
+
 def eval_predictions(prediction_probs,threshold):
+    '''
+    Compute binary predictions from prediction probabilies
+    '''
     predictions = []
     for i, prob in enumerate(prediction_probs):
         if prob>threshold:
@@ -124,39 +180,59 @@ def eval_predictions(prediction_probs,threshold):
         else:
             predictions.append(0)
     return predictions
-    
 
 
-# Compute area under curve using trapezoidal rule
 def auc(x,y):
+    '''
+    Compute area under curve using trapezoidal rule
+    '''
     area = 0
 
     for i in range(len(x)-1):
         area += abs((y[i]+y[i+1])/2* (x[i+1]-x[i]))
     return area
 
+
 def evaluate(classifier, test_data, fold = 0, name = ''):
+    '''
+    Evaluate a classifier to return Accuracy, Precision, Recall, AUROC and AUPRC
+    and print ROC and PRC.
+
+    Parameters:
+    classifier (classifier) : Classifier with method predict and argument probabilities
+    test_data
+
+    Usage:
+    evaluate(classifier, test_data, name = name)
+
+    '''
 
     targets = extract_targets(test_data)
-
     predictions = classifier.predict(test_data, probabilities = False)
-
     accuracy, precision, recall = accuracy_precision_recall(predictions,targets)
-
     prediction_probs = classifier.predict(test_data, probabilities = True)
     auroc = curve(prediction_probs, targets, kind = 'roc',print_plot = True, filename = name+'_roc_fold'+str(fold)+'.png')
     auprc = curve(prediction_probs, targets, kind = 'prc',print_plot = True, filename = name+'_prc_fold'+str(fold)+'.png')
-
     print('| Fold: {:2} | Accuracy: {:0.2f} | Precision: {:0.2f} | Recall: {:0.2f} | AUROC: {:0.2f} | AUPRC: {:0.2f} |'.format(fold,accuracy,precision,recall, auroc,auprc))
     return accuracy, precision, recall, auroc, auprc
 
+
 def k_fold_evaluation(data, classifier,name, folds = 10):
+    '''
+    Train classifier on k-fold cross validation and evaluate to return Accuracy,
+    Precision, Recall, AUROC and AUPRC and print ROC and PRC.
+
+    Parameters:
+    classifier (classifier) : Classifier with method predict and argument probabilities
+    test_data
+
+    Usage:
+    evaluate(classifier, test_data, name = name)
+
+    '''
     for i in range(len(data)):
         data[i][-1] = int(data[i][-1])
-
-
     split = k_fold_split(data,folds)
-
     accuracies = []
     precisions = []
     recalls = []
@@ -165,17 +241,11 @@ def k_fold_evaluation(data, classifier,name, folds = 10):
     print('-'*90)
     for fold in range(0,10):
         train_data, test_data = split.train_test(fold)
-
-
         imp = mean_impute(train_data,list(range(1,8)))
         norm = normalize(train_data,list(range(0,8)))
-
         ni_train_data =  norm.call(imp.call(train_data))
         ni_test_data =  norm.call(imp.call(test_data))
-
-
         classifier.build_forest(ni_train_data)
-
         accuracy, precision, recall, auroc, auprc = evaluate(classifier, ni_test_data, name = name,fold = fold)
         accuracies.append(accuracy)
         precisions.append(precision)
@@ -191,4 +261,3 @@ def k_fold_evaluation(data, classifier,name, folds = 10):
     print(' Recall:    {:0.2f} +/- {:0.2f}'.format(mean(recalls), standard_error(recalls)))
     print(' AUROC:     {:0.2f} +/- {:0.2f}'.format(mean(aurocs), standard_error(aurocs)))
     print(' AUPRC:     {:0.2f} +/- {:0.2f}'.format(mean(auprcs), standard_error(auprcs)))
-
