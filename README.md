@@ -16,6 +16,12 @@ Arguments:
 --size 100: Number of trees in random forest
 ```
 
+## Data processing
+
+- Impute by replacing missing values (except for pregnancy feature) by mean of non-missing values
+
+- Normalize all features to lie between 0 and 1
+
 ## Sample outputs:
 
 ### Biased Random Forest evaluation
