@@ -8,15 +8,48 @@ To train a random forest (RF) or Biased Random Forest (BRAF) on the diabetes dat
 
 Arguments:
 
-```--forest:   BRAF or RF```
+```
+--forest:   BRAF or RF
+--k:        BRAF argument k, for k-nearest neighbors in cirical data set
+--folds:    Number of folds for cross-validation
+--p_ratio:  BRAF argument. Relative ratio of random forests trained on critical/full data set
+--size 100: Number of trees in random forest
+```
 
-```--k:        BRAF argument k, for k-nearest neighbors in cirical data set```
+Sample outputs:
 
-```--folds:    Number of folds for cross-validation```
+BRAF evaluation
+```
+>>>  python evaluate_forest.py --forest BRAF --k 10 --folds 10 --p_ratio 0.5 --size 100
 
-```--p_ratio:  BRAF argument. Relative ratio of random forests trained on critical/full data set```
 
-```--size 100: Number of trees in random forest```
+```
+
+RF evaluation
+```
+>>>  python evaluate_forest.py --forest RF --size 100
+------------------------------------------------------------------------------------------
+| Fold:  0 | Accuracy: 0.69 | Precision: 0.54 | Recall: 0.50 | AUROC: 0.66 | AUPRC: 0.60 |
+| Fold:  1 | Accuracy: 0.75 | Precision: 0.57 | Recall: 0.59 | AUROC: 0.75 | AUPRC: 0.60 |
+| Fold:  2 | Accuracy: 0.79 | Precision: 0.77 | Recall: 0.72 | AUROC: 0.73 | AUPRC: 0.78 |
+| Fold:  3 | Accuracy: 0.75 | Precision: 0.65 | Recall: 0.58 | AUROC: 0.72 | AUPRC: 0.65 |
+| Fold:  4 | Accuracy: 0.73 | Precision: 0.61 | Recall: 0.63 | AUROC: 0.66 | AUPRC: 0.60 |
+| Fold:  5 | Accuracy: 0.77 | Precision: 0.82 | Recall: 0.48 | AUROC: 0.70 | AUPRC: 0.72 |
+| Fold:  6 | Accuracy: 0.77 | Precision: 0.58 | Recall: 0.68 | AUROC: 0.69 | AUPRC: 0.60 |
+| Fold:  7 | Accuracy: 0.73 | Precision: 0.62 | Recall: 0.56 | AUROC: 0.65 | AUPRC: 0.62 |
+| Fold:  8 | Accuracy: 0.79 | Precision: 0.69 | Recall: 0.74 | AUROC: 0.77 | AUPRC: 0.79 |
+| Fold:  9 | Accuracy: 0.73 | Precision: 0.73 | Recall: 0.53 | AUROC: 0.66 | AUPRC: 0.77 |
+------------------------------------------------------------------------------------------
+
+Averages +/- Standard Error
+---------------------------
+ Accuracy:  0.75 +/- 0.01
+ Precision: 0.66 +/- 0.03
+ Recall:    0.60 +/- 0.03
+ AUROC:     0.70 +/- 0.01
+ AUPRC:     0.67 +/- 0.02
+ ```
+
 
 
 References:
