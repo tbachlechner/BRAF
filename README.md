@@ -16,9 +16,9 @@ Arguments:
 --size 100: Number of trees in random forest
 ```
 
-Sample outputs:
+## Sample outputs:
 
-BRAF evaluation
+### Biased Random Forest evaluation
 ```
 >>>  python evaluate_forest.py --forest BRAF --k 10 --folds 10 --p_ratio 0.5 --size 100
 ------------------------------------------------------------------------------------------
@@ -48,7 +48,7 @@ Averages +/- Standard Error
 </p>
 
 
-RF evaluation
+### Plain Random Forest evaluation
 ```
 >>>  python evaluate_forest.py --forest RF --size 100
 ------------------------------------------------------------------------------------------
