@@ -12,7 +12,8 @@ Arguments:
 --forest:   BRAF or RF
 --k:        BRAF argument k, for k-nearest neighbors in cirical data set
 --folds:    Number of folds for cross-validation
---p_ratio:  BRAF argument. Relative ratio of random forests trained on critical/full data set
+--p_ratio:  BRAF argument. Relative ratio of random forests trained on 
+            critical/full data set
 --size 100: Number of trees in random forest
 ```
 
