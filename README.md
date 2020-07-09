@@ -52,7 +52,7 @@ Averages +/- Standard Error
 
 ```
 <p align="left">
-<img src=./data/BRAF_prc_fold9.png width="350"/><img src=./data/BRAF_roc_fold9.png width="350"/>
+<img src=./data/BRAF_prc_fold9.png width="500"/><img src=./data/BRAF_roc_fold9.png width="500"/>
 </p>
 
 
@@ -81,7 +81,7 @@ Averages +/- Standard Error
  AUPRC:     0.67 +/- 0.02
  ```
 <p align="left">
-<img src=./data/RF_prc_fold9.png width="350"/><img src=./data/RF_roc_fold9.png width="350"/>
+<img src=./data/RF_prc_fold9.png width="500"/><img src=./data/RF_roc_fold9.png width="500"/>
 </p>
 
 
