@@ -156,14 +156,13 @@ class RandomForest:
     def select_n_random(self, List, n = None):
         length = len(List)
 
-        indices = list(range(0,len(List)))
-        List_copy = List.copy()
-        random.shuffle(List_copy)
+
+        indices = [random.randrange(0,len(List)) for _ in range(0,n ) ]
 
         if n == None:
             return List_copy
         else:
-            return List_copy[0:n]
+            return [List[i] for i in indices]
     
     def build_forest(self, data):
         '''
