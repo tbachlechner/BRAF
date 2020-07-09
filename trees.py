@@ -29,7 +29,6 @@ class BRAF:
         self.p_ratio = p_ratio
         self.k = k
 
-
     def build_forest(self, data):
         '''
         Builds the forest to fit data
@@ -101,7 +100,6 @@ class BRAF:
         else:
             return self.single_predict(data,probabilities = probabilities)
 
-
     def l2_norm2(self,row1, row2, exclude_last_n = 0):
         '''
         Calculate the Euclidean distance between two vectors (excliding the last n coordinates)
@@ -124,6 +122,7 @@ class BRAF:
         for i in range(k):
             neighbors.append(distances[i][0])
         return neighbors
+
 
 # Implement Random Forest
 class RandomForest:
