@@ -18,6 +18,8 @@ Arguments:
 
 ## Data processing
 
+Data is imbalanced 2:1 between the classes 0/1.
+
 - Impute by replacing missing values (except for pregnancy feature) by mean of non-missing values
 
 - Normalize all features to lie between 0 and 1
