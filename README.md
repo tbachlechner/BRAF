@@ -70,7 +70,7 @@ Averages +/- Standard Error
 ```
 ROC and PRC curves for final model evaluation on test set:
 <p align="left">
-<img src=./data/BRAF_prc_fold_final_test.png width="450"/><img src=./data/BRAF_roc_fold_final_test.png width="450"/>
+<img src=./data/BRAF_prc_fold_final_test.png width="400"/><img src=./data/BRAF_roc_fold_final_test.png width="400"/>
 </p>
 
 
@@ -115,7 +115,7 @@ Averages +/- Standard Error
  
 ROC and PRC curves for final model evaluation on test set:
 <p align="left">
-<img src=./data/RF_prc_fold_final_test.png width="450"/><img src=./data/RF_roc_fold_final_test.png width="450"/>
+<img src=./data/RF_prc_fold_final_test.png width="400"/><img src=./data/RF_roc_fold_final_test.png width="400"/>
 </p>
 
 
