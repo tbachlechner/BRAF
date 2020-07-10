@@ -38,7 +38,7 @@ def main(args):
         classifier_final = BRAF(size = args.size, p_ratio = args.p_ratio, k = args.k)
         name = './data/RF'
         if args.k_fold_cross_val:
-            k_fold_evaluation(data = train_data, classifier = classifier_val, name = name, print_plot = args.print_plot)
+            k_fold_evaluation(data = train_data, classifier = classifier_val, name = name, folds = args.folds, print_plot = args.print_plot)
 
     print('\n Train model on full train set.')
     imp = mean_impute(train_data,list(range(1,8)))

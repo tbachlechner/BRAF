@@ -23,7 +23,7 @@ def mean(data):
     Parameters:
     data
     '''
-    
+
     return sum(data)/len(data)
 
 
@@ -259,7 +259,7 @@ def k_fold_evaluation(data, classifier,name, folds = 10, print_plot = True):
     rocs = []
     prcs = []
     print('-'*90)
-    for fold in range(0,10):
+    for fold in range(0,folds):
         train_data, test_data = split.train_test(fold)
         imp = mean_impute(train_data,list(range(1,8)))
         norm = normalize(train_data,list(range(0,8)))
