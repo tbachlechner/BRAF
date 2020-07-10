@@ -110,3 +110,4 @@ https://ieeexplore.ieee.org/document/8541100
 ## Notes:
 
 - The implementation is in plain Python and NumPy would speed it up.
+- The "critical" dataset in BRAF contains almost the entire dataset with the default parameters, which inhibits potential improvements.
