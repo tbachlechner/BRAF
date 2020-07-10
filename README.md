@@ -4,7 +4,7 @@ Implement random forest and BRAF from scratch
 
 To train a random forest (RF) or Biased Random Forest (BRAF) on the diabetes dataset with k-fold cross validation, and to save ROC and PRC curves use:
 
-```python evaluate_forest.py --forest BRAF --k 10 --folds 10 --p_ratio 0.5 --size 100```
+```python evaluate_forest.py --forest BRAF --k 10 --folds 10 --p_ratio 0.5 --size 100 --print_plot --evaluate_on_train_set --k_fold_cross_val```
 
 Arguments:
 
@@ -105,3 +105,8 @@ Averages +/- Standard Error
 
 References:
 https://ieeexplore.ieee.org/document/8541100
+
+
+## Notes:
+
+- The implementation is in plain Python and NumPy would speed it up.
