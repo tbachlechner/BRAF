@@ -1,5 +1,5 @@
 # BRAF
-Implement random forest and BRAF from scratch
+Implement random forest and [BRAF](https://ieeexplore.ieee.org/document/8541100) from scratch
 
 
 To train a random forest (RF) or Biased Random Forest (BRAF) on the diabetes dataset with k-fold cross validation, and to save ROC and PRC curves use:
