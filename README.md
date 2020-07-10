@@ -1,5 +1,5 @@
 # BRAF
-Implement random forest and BRAF from scratch
+Implement random forest and [BRAF](https://ieeexplore.ieee.org/document/8541100) from scratch.
 
 
 To train a random forest (RF) or Biased Random Forest (BRAF) on the diabetes dataset with k-fold cross validation, and to save ROC and PRC curves use:
@@ -49,7 +49,6 @@ Data is imbalanced 2:1 between the classes 0/1.
 | Fold:  6 | Accuracy: 0.73 | Precision: 0.65 | Recall: 0.68 | AUROC: 0.79 | AUPRC: 0.72 |
 | Fold:  7 | Accuracy: 0.78 | Precision: 0.64 | Recall: 0.50 | AUROC: 0.77 | AUPRC: 0.62 |
 | Fold:  8 | Accuracy: 0.80 | Precision: 0.56 | Recall: 0.67 | AUROC: 0.82 | AUPRC: 0.68 |
-
 | Fold:  9 | Accuracy: 0.72 | Precision: 0.64 | Recall: 0.33 | AUROC: 0.83 | AUPRC: 0.58 |
 ------------------------------------------------------------------------------------------
 
@@ -69,8 +68,9 @@ Averages +/- Standard Error
  Model evaluation on test set:
 | Fold: _final_test | Accuracy: 0.76 | Precision: 0.64 | Recall: 0.68 | AUROC: 0.82 | AUPRC: 0.67 |
 ```
+ROC and PRC curves for final model evaluation on test set:
 <p align="left">
-<img src=./data/BRAF_prc_fold_final_test.png width="500"/><img src=./data/BRAF_roc_fold_final_test.png width="500"/>
+<img src=./data/BRAF_prc_fold_final_test.png width="400"/><img src=./data/BRAF_roc_fold_final_test.png width="400"/>
 </p>
 
 
@@ -112,8 +112,10 @@ Averages +/- Standard Error
  Model evaluation on test set:
 | Fold: _final_test | Accuracy: 0.77 | Precision: 0.73 | Recall: 0.55 | AUROC: 0.85 | AUPRC: 0.69 |
  ```
+ 
+ROC and PRC curves for final model evaluation on test set:
 <p align="left">
-<img src=./data/RF_prc_fold_final_test.png width="500"/><img src=./data/RF_roc_fold_final_test.png width="500"/>
+<img src=./data/RF_prc_fold_final_test.png width="400"/><img src=./data/RF_roc_fold_final_test.png width="400"/>
 </p>
 
 
@@ -125,3 +127,4 @@ https://ieeexplore.ieee.org/document/8541100
 
 - The implementation is in plain Python and NumPy would speed it up.
 - The "critical" dataset in BRAF contains almost the entire dataset with the default parameters, which inhibits potential improvements.
+- Stratified train/test split might help
