@@ -69,6 +69,7 @@ Averages +/- Standard Error
  Model evaluation on test set:
 | Fold: _final_test | Accuracy: 0.76 | Precision: 0.64 | Recall: 0.68 | AUROC: 0.82 | AUPRC: 0.67 |
 ```
+ROC and PRC curves for final model evaluation on test set:
 <p align="left">
 <img src=./data/BRAF_prc_fold_final_test.png width="500"/><img src=./data/BRAF_roc_fold_final_test.png width="500"/>
 </p>
@@ -112,6 +113,8 @@ Averages +/- Standard Error
  Model evaluation on test set:
 | Fold: _final_test | Accuracy: 0.77 | Precision: 0.73 | Recall: 0.55 | AUROC: 0.85 | AUPRC: 0.69 |
  ```
+ 
+ROC and PRC curves for final model evaluation on test set:
 <p align="left">
 <img src=./data/RF_prc_fold_final_test.png width="500"/><img src=./data/RF_roc_fold_final_test.png width="500"/>
 </p>
