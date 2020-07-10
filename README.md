@@ -127,3 +127,4 @@ https://ieeexplore.ieee.org/document/8541100
 
 - The implementation is in plain Python and NumPy would speed it up.
 - The "critical" dataset in BRAF contains almost the entire dataset with the default parameters, which inhibits potential improvements.
+- Stratified train/test split might help
