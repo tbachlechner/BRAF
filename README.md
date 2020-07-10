@@ -70,7 +70,7 @@ Averages +/- Standard Error
 | Fold: _final_test | Accuracy: 0.76 | Precision: 0.64 | Recall: 0.68 | AUROC: 0.82 | AUPRC: 0.67 |
 ```
 <p align="left">
-<img src=./data/BRAF_prc_fold9.png width="500"/><img src=./data/BRAF_roc_fold9.png width="500"/>
+<img src=./data/BRAF_prc_fold_final_test.png width="500"/><img src=./data/BRAF_roc_fold_final_test.png width="500"/>
 </p>
 
 
