@@ -49,7 +49,6 @@ Data is imbalanced 2:1 between the classes 0/1.
 | Fold:  6 | Accuracy: 0.73 | Precision: 0.65 | Recall: 0.68 | AUROC: 0.79 | AUPRC: 0.72 |
 | Fold:  7 | Accuracy: 0.78 | Precision: 0.64 | Recall: 0.50 | AUROC: 0.77 | AUPRC: 0.62 |
 | Fold:  8 | Accuracy: 0.80 | Precision: 0.56 | Recall: 0.67 | AUROC: 0.82 | AUPRC: 0.68 |
-
 | Fold:  9 | Accuracy: 0.72 | Precision: 0.64 | Recall: 0.33 | AUROC: 0.83 | AUPRC: 0.58 |
 ------------------------------------------------------------------------------------------
 
