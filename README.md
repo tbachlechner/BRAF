@@ -9,12 +9,15 @@ To train a random forest (RF) or Biased Random Forest (BRAF) on the diabetes dat
 Arguments:
 
 ```
---forest:   BRAF or RF
---k:        BRAF argument k, for k-nearest neighbors in cirical data set
---folds:    Number of folds for cross-validation
---p_ratio:  BRAF argument. Relative ratio of random forests trained on 
-            critical/full data set
---size 100: Number of trees in random forest
+--forest:                 BRAF or RF
+--k:                      BRAF argument k, for k-nearest neighbors in cirical data set
+--folds:                  Number of folds for cross-validation
+--p_ratio:                BRAF argument. Relative ratio of random forests trained on 
+                          critical/full data set
+--size 100:               Number of trees in random forest
+--k_fold_cross_val        Perform cross validation
+--print_plot:             Print PRC/ROC curves for each cross validation fold
+--evaluate_on_train_set   Evaluate final model both train and test set
 ```
 
 ## Data processing
@@ -29,7 +32,7 @@ Data is imbalanced 2:1 between the classes 0/1.
 
 ### Biased Random Forest evaluation
 ```
->>>  python evaluate_forest.py --forest BRAF --k 10 --folds 10 --p_ratio 0.5 --size 100
+>>>  python evaluate_forest.py --forest BRAF --k 10 --folds 10 --p_ratio 0.5 --size 100 --print_plot --evaluate_on_train_set --k_fold_cross_val
 ------------------------------------------------------------------------------------------
 | Fold:  0 | Accuracy: 0.74 | Precision: 0.60 | Recall: 0.60 | AUROC: 0.74 | AUPRC: 0.54 |
 | Fold:  1 | Accuracy: 0.73 | Precision: 0.63 | Recall: 0.61 | AUROC: 0.80 | AUPRC: 0.60 |
@@ -59,7 +62,7 @@ Averages +/- Standard Error
 
 ### Plain Random Forest evaluation
 ```
->>>  python evaluate_forest.py --forest RF --size 100
+>>>  python evaluate_forest.py --forest RF --size 100 --print_plot --evaluate_on_train_set --k_fold_cross_val
 ------------------------------------------------------------------------------------------
 | Fold:  0 | Accuracy: 0.69 | Precision: 0.54 | Recall: 0.50 | AUROC: 0.66 | AUPRC: 0.60 |
 | Fold:  1 | Accuracy: 0.75 | Precision: 0.57 | Recall: 0.59 | AUROC: 0.75 | AUPRC: 0.60 |
