@@ -23,6 +23,7 @@ def mean(data):
     Parameters:
     data
     '''
+    
     return sum(data)/len(data)
 
 
@@ -82,7 +83,7 @@ def accuracy_precision_recall(predictions,targets):
         if target == prediction:
             correct +=1
     if all_positives == 0:
-        precision = None
+        precision = 1
     else:
         precision = true_positives / all_positives
     recall = true_positives / positives
@@ -140,6 +141,7 @@ def print_curve(x,y,filename,kind = 'roc'):
            title=title)
     ax.grid()
     fig.savefig(filename,  dpi=400)
+    plt.close('all')
 
 
 def curve(prediction_probs, targets, kind = 'prc' , points = 100, print_plot = True,
@@ -147,9 +149,8 @@ def curve(prediction_probs, targets, kind = 'prc' , points = 100, print_plot = T
     '''
     Return area under curve and also print curve for precision recall Curve
     and receiver operating characteristic curve.
-
-
     '''
+
     output = []
     for i in range(points+1):
         threshold = i/points
@@ -160,19 +161,25 @@ def curve(prediction_probs, targets, kind = 'prc' , points = 100, print_plot = T
                 output.append( ( recall,precision ) )
         elif kind == 'roc':
             output.append(fpr_tpr(predictions,targets))
+    if kind == 'prc':
+        output.insert(0,(1,0))
+    if kind == 'roc':
+        output.insert(0,(1,1))
 
     [x,y] = transpose_list(output)
+
     if print_plot:
         assert filename != None, 'Provide a filename argument to curve().'
         plot = print_curve(x,y,filename = filename, kind = kind)
 
-    return auc(x,y)
+    return auc(x,y), [x,y]
 
 
 def eval_predictions(prediction_probs,threshold):
     '''
     Compute binary predictions from prediction probabilies
     '''
+
     predictions = []
     for i, prob in enumerate(prediction_probs):
         if prob>threshold:
@@ -186,6 +193,7 @@ def auc(x,y):
     '''
     Compute area under curve using trapezoidal rule
     '''
+
     area = 0
 
     for i in range(len(x)-1):
@@ -193,7 +201,7 @@ def auc(x,y):
     return area
 
 
-def evaluate(classifier, test_data, fold = 0, name = ''):
+def evaluate(classifier, test_data, fold = 0, name = '', print_plot = True):
     '''
     Evaluate a classifier to return Accuracy, Precision, Recall, AUROC and AUPRC
     and print ROC and PRC.
@@ -204,20 +212,30 @@ def evaluate(classifier, test_data, fold = 0, name = ''):
 
     Usage:
     evaluate(classifier, test_data, name = name)
-
     '''
 
     targets = extract_targets(test_data)
     predictions = classifier.predict(test_data, probabilities = False)
     accuracy, precision, recall = accuracy_precision_recall(predictions,targets)
     prediction_probs = classifier.predict(test_data, probabilities = True)
-    auroc = curve(prediction_probs, targets, kind = 'roc',print_plot = True, filename = name+'_roc_fold'+str(fold)+'.png')
-    auprc = curve(prediction_probs, targets, kind = 'prc',print_plot = True, filename = name+'_prc_fold'+str(fold)+'.png')
+    auroc, roc = curve(prediction_probs, targets, kind = 'roc',print_plot = print_plot, filename = name+'_roc_fold'+str(fold)+'.png')
+    auprc, prc = curve(prediction_probs, targets, kind = 'prc',print_plot = print_plot, filename = name+'_prc_fold'+str(fold)+'.png')
     print('| Fold: {:2} | Accuracy: {:0.2f} | Precision: {:0.2f} | Recall: {:0.2f} | AUROC: {:0.2f} | AUPRC: {:0.2f} |'.format(fold,accuracy,precision,recall, auroc,auprc))
-    return accuracy, precision, recall, auroc, auprc
+    return accuracy, precision, recall, auroc, auprc, roc, prc
 
 
-def k_fold_evaluation(data, classifier,name, folds = 10):
+def convert_to_averages(list_of_lists):
+    '''
+    Converts a list of shape [ [x1,y1], [x2,y2], ... ] to [ x_avg, y_avg ]
+    '''
+    transposed_x = transpose_list(transpose_list(list_of_lists)[0])
+    transposed_y = transpose_list(transpose_list(list_of_lists)[1])
+    out_x = [mean(x) for x in transposed_x]
+    out_y = [mean(x) for x in transposed_y]
+    return [out_x,out_y]
+
+
+def k_fold_evaluation(data, classifier,name, folds = 10, print_plot = True):
     '''
     Train classifier on k-fold cross validation and evaluate to return Accuracy,
     Precision, Recall, AUROC and AUPRC and print ROC and PRC.
@@ -228,8 +246,8 @@ def k_fold_evaluation(data, classifier,name, folds = 10):
 
     Usage:
     evaluate(classifier, test_data, name = name)
-
     '''
+
     for i in range(len(data)):
         data[i][-1] = int(data[i][-1])
     split = k_fold_split(data,folds)
@@ -238,6 +256,8 @@ def k_fold_evaluation(data, classifier,name, folds = 10):
     recalls = []
     aurocs = []
     auprcs = []
+    rocs = []
+    prcs = []
     print('-'*90)
     for fold in range(0,10):
         train_data, test_data = split.train_test(fold)
@@ -246,12 +266,20 @@ def k_fold_evaluation(data, classifier,name, folds = 10):
         ni_train_data =  norm.call(imp.call(train_data))
         ni_test_data =  norm.call(imp.call(test_data))
         classifier.build_forest(ni_train_data)
-        accuracy, precision, recall, auroc, auprc = evaluate(classifier, ni_test_data, name = name,fold = fold)
+        accuracy, precision, recall, auroc, auprc, roc, prc = evaluate(classifier, ni_test_data, name = name,fold = fold, print_plot = print_plot)
         accuracies.append(accuracy)
         precisions.append(precision)
         recalls.append(recall)
         aurocs.append(auroc)
         auprcs.append(auprc)
+        rocs.append(roc)
+        prcs.append(prc)
+
+    avg_roc = convert_to_averages(rocs)
+    avg_prc = convert_to_averages(prcs)
+    print_curve( x = avg_roc[0],y = avg_roc[1],filename = name+'_roc_avg.png', kind = 'roc')
+    print_curve( x = avg_prc[0],y = avg_prc[1],filename = name+'_prc_avg.png', kind = 'prc')
+
     print('-'*90)
     print('')
     print('Averages +/- Standard Error')

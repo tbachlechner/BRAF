@@ -31,8 +31,6 @@ class k_fold_split:
                 j +=1
             self.split_data.append(fold)
 
-    def fold(self,i):
-        return self.split_data[i]
 
     def train_test(self,i):
         train = []

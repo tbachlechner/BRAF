@@ -34,6 +34,7 @@ class BRAF:
         Builds the forest to fit data
         '''
 
+        # Find classes and split data into sets for each class
         self.classes = []
         sets = [], []
         for row in data:
@@ -45,24 +46,32 @@ class BRAF:
             else:
                 sets[1].append(row)
 
+        # Find the majority class
         majority_index = 0
         if len(sets[1]) > len(sets[0]):
             majority_index = 1
 
+        # Divide into majority and minority class sets
         T_maj = sets[majority_index]
         T_min = sets[1-majority_index]
         L_maj = T_maj[0][-1]
         L_min = T_min[0][-1]
+
+        # Build difficult areas set T_c
         T_c = []
         for element in T_min:
+            # Adds the element to the citical data set
             T_c.append(element)
+            # Find the k nearest neighbor for each minority instance in the data set
             T_nn = self.k_nearest(T_maj, element, self.k, exclude_last_n = 1)
             for nn_element in T_nn:
                 if nn_element not in T_c:
+                    # Add the unique neighbors only to the ciritcal data set
                     T_c.append(nn_element)
-
+        # Build a first forest based on the full data set
         self.rf1 = RandomForest(size = round((1-self.p_ratio)*self.size))
         self.rf1.build_forest(data)
+        # Build a second forest based on the critical data set
         self.rf2 = RandomForest(size = round(self.p_ratio*self.size))
         self.rf2.build_forest(T_c)
 
@@ -82,8 +91,9 @@ class BRAF:
 
     def predict_trees(self, data):
         '''
-        Returns the predictions for all trees in the forest
+        Returns the predictions for all trees in the combined forest
         '''
+        # Combine the two forests to generate the main forest
         predictions = self.rf1.predict_trees(data)
         predictions.extend(self.rf2.predict_trees(data))
         return predictions
