@@ -35,7 +35,7 @@ def main(args):
     elif args.forest == 'RF':
         print(' Model: Plain Random Forest. Parameters: size = {:3}'.format(args.size))
         classifier_val = RandomForest(size = args.size)
-        classifier_final = RandomForest(size = args.size, p_ratio = args.p_ratio, k = args.k)
+        classifier_final = RandomForest(size = args.size)
         name = './data/RF'
         if args.k_fold_cross_val:
             k_fold_evaluation(data = train_data, classifier = classifier_val, name = name, folds = args.folds, print_plot = args.print_plot)
