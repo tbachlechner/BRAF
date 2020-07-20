@@ -140,10 +140,10 @@ class RandomForest:
     Random forest
     Parameters:
     - size (int): number of trees
-    - fraction (int): fraction of training set used for training each tree
-    - node_depth (int): maximum tree depth
-    - n_search_pts (int): number of points used to search for optimal decision threshold
-    - max_features_per_node (int): maximum features each node is allowed to use
+    - bagging_frac = relative size of bootstrapped dataset to full dataset
+    - max_depth = maximum depth of trees
+    - min_size = minimum number of samples at leaves of tree before termination
+    - classifier = 'gini' or 'entropy' for evaluation of splits. 'entropy' has non-standard parameter gamma, to focus loss
     - data in format data[0] = [features, Label]
 
     Usage:
